@@ -1,0 +1,41 @@
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.exe
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.deps.json
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.runtimeconfig.json
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.runtimeconfig.dev.json
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.dll
+D:\Работа\PowerMeter\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.pdb
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.csprojAssemblyReference.cache
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\App.g.cs
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter_MarkupCompile.cache
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter_MarkupCompile.lref
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\MainWindow.baml
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.g.resources
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.csproj.CoreCompileInputs.cache
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.AssemblyInfoInputs.cache
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.AssemblyInfo.cs
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.dll
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.pdb
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.genruntimeconfig.cache
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\UserControlSecret.g.cs
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\UserControlSecret.baml
+D:\Работа\PowerMeter\Power Meter\obj\Debug\netcoreapp3.1\GeneratedInternalTypeHelper.g.cs
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.exe
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.deps.json
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.runtimeconfig.json
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.runtimeconfig.dev.json
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.dll
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\bin\Debug\netcoreapp3.1\Power Meter.pdb
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.csprojAssemblyReference.cache
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\MainWindow.g.cs
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\App.g.cs
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter_MarkupCompile.cache
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter_MarkupCompile.lref
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\MainWindow.baml
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.g.resources
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.AssemblyInfoInputs.cache
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.AssemblyInfo.cs
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.csproj.CoreCompileInputs.cache
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.dll
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.pdb
+G:\Qt\sw_platform\doc\source\Power_Meter (1)\Power Meter\obj\Debug\netcoreapp3.1\Power Meter.genruntimeconfig.cache
