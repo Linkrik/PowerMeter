@@ -4,12 +4,14 @@ ManagerGUI::ManagerGUI(QVector<QPushButton *> buttons)
 {
     this->button_visible = buttons;
 
+    //                                                         |  35x15 | 28.5x12.6 | System | Secret
     this->button_matrix[STATE_SELECT_FREQ]                      << true  << true  << true  << true;
     this->button_matrix[STATE_ENTER_PIN_CODE_FOR_SECRET_MODE]   << false << false << false << true;
     this->button_matrix[STATE_SECRET_MODE]                      << true  << true  << false << false;
     this->button_matrix[STATE_SYSTEM_MODE]                      << false << false << true  << false;
     this->button_matrix[STATE_PIN_FOR_DEV]                      << false << false << false << false;
     this->button_matrix[STATE_DEV_MODE]                         << false << false << false << false;
+    this->button_matrix[STATE_SELF_TEST_ATT]                    << false << false << true  << false;
 
     this->state_gui = STATE_SELECT_FREQ;
 }

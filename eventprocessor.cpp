@@ -9,7 +9,7 @@ EventProcessor::EventProcessor(ManagerGUI * gui)
     timer = new QTimer(this);
     connect(timer, &QTimer::timeout, this, &EventProcessor::GetPower);
     timer->setInterval(250);
-    timer->start();
+    timer->stop();
 
     this->input_state = INPUT_STATE_INACTIVE;
     this->is_used_dot = false;
@@ -77,7 +77,7 @@ void EventProcessor::GetPower()
             power = (pow(10, (power - 30)/10.0));
         }
 
-        OnUpdatePower(power);
+        emit OnUpdatePower(power);
     }
 }
 
@@ -91,7 +91,7 @@ void EventProcessor::ButtonHandle(ButtonID id)
             {
                 this->frequency_value = "";
                 this->input_state = INPUT_STATE_ACTIVE;
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             }
         }
 
@@ -100,61 +100,61 @@ void EventProcessor::ButtonHandle(ButtonID id)
             case BUTTON_0:
             {
                 this->frequency_value += "0";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_1:
             {
                 this->frequency_value += "1";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_2:
             {
                 this->frequency_value += "2";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_3:
             {
                 this->frequency_value += "3";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_4:
             {
                 this->frequency_value += "4";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_5:
             {
                 this->frequency_value += "5";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_6:
             {
                 this->frequency_value += "6";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_7:
             {
                 this->frequency_value += "7";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_8:
             {
                 this->frequency_value += "8";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_9:
             {
                 this->frequency_value += "9";
-                OnFrequencyChange(this->frequency_value);
+                emit OnFrequencyChange(this->frequency_value);
             } break;
 
             case BUTTON_DOT:
@@ -165,7 +165,7 @@ void EventProcessor::ButtonHandle(ButtonID id)
                     {
                         this->frequency_value += ".";
                         this->is_used_dot = true;
-                        OnFrequencyChange(this->frequency_value);
+                        emit OnFrequencyChange(this->frequency_value);
                     }
                 }
             } break;
@@ -178,7 +178,7 @@ void EventProcessor::ButtonHandle(ButtonID id)
                         this->is_used_dot = false;
 
                     this->frequency_value = this->frequency_value.remove(this->frequency_value.size() - 1, 1);
-                    OnFrequencyChange(this->frequency_value);
+                    emit OnFrequencyChange(this->frequency_value);
                 }
             } break;
 
@@ -194,7 +194,7 @@ void EventProcessor::ButtonHandle(ButtonID id)
                         freq <= this->measurer->GetMaxFrequency())
                     {
                         this->measurer->SetFrequency(freq);
-                        OnFrequencyChange(this->frequency_value);
+                        emit OnFrequencyChange(this->frequency_value);
                     }
                 }
             } break;
@@ -202,8 +202,114 @@ void EventProcessor::ButtonHandle(ButtonID id)
     }
 }
 
+void EventProcessor::StartTimer()
+{
+    this->timer->start();
+}
+
+void EventProcessor::StopTimer()
+{
+    this->timer->stop();
+}
+
 void EventProcessor::StartCalibration(SizeWaveguide sizeWave_guide)
 {
+//    this->timer->stop();
     QFuture<void> future = QtConcurrent::run(measurer, &Measurer::Calibration, sizeWave_guide);
+//    this->timer->start(250);
 //    future.waitForFinished();
+}
+
+void EventProcessor::SercetCodeButtonHandler(ButtonID id)
+{
+    if (this->input_state == INPUT_STATE_INACTIVE)
+    {
+        if (id != BUTTON_ENTER)
+        {
+            this->secret_symbol = "";
+            this->input_state = INPUT_STATE_ACTIVE;
+            emit OnSecretCodeChanged(this->secret_symbol);
+        }
+    }
+
+        switch (id)
+        {
+            case BUTTON_0:
+            {
+                this->secret_symbol = "0";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_1:
+            {
+                this->secret_symbol = "1";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_2:
+            {
+                this->secret_symbol = "2";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_3:
+            {
+                this->secret_symbol = "3";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_4:
+            {
+                this->secret_symbol = "4";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_5:
+            {
+                this->secret_symbol = "5";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_6:
+            {
+                this->secret_symbol = "6";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_7:
+            {
+                this->secret_symbol = "7";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_8:
+            {
+                this->secret_symbol = "8";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_9:
+            {
+                this->secret_symbol = "9";
+                emit OnSecretCodeChanged(this->secret_symbol);
+            } break;
+
+            case BUTTON_BKS:
+            {
+                if (this->secret_symbol.size() > 0)
+                {
+                    this->secret_symbol = this->secret_symbol.remove(this->secret_symbol.size() - 1, 1);
+                    emit OnSecretCodeChanged(this->secret_symbol);
+                }
+            } break;
+
+            case BUTTON_ENTER:
+            {
+                if (this->input_state == INPUT_STATE_ACTIVE)
+                {
+                    this->input_state = INPUT_STATE_INACTIVE;
+                    emit OnSecretCodeChanged(this->secret_symbol);
+                }
+            } break;
+        }
 }

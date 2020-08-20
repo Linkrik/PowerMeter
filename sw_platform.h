@@ -88,8 +88,46 @@ private slots:
 
     void on_update_progress_bar(qint32 progress);
 
+    void on_secret_code_changed(QString secret_code);
+
+    void on_btn_1_dev_pin_clicked();
+
+    void on_btn_2_dev_pin_clicked();
+
+    void on_btn_3_dev_pin_clicked();
+
+    void on_btn_4_dev_pin_clicked();
+
+    void on_btn_5_dev_pin_clicked();
+
+    void on_btn_6_dev_pin_clicked();
+
+    void on_btn_7_dev_pin_clicked();
+
+    void on_btn_8_dev_pin_clicked();
+
+    void on_btn_9_dev_pin_clicked();
+
+    void on_btn_0_dev_pin_clicked();
+
+    void on_btn_bks_dev_pin_clicked();
+
+    void on_btn_cancel_dev_pin_clicked();
+
+    void on_btn_cancel_pin_secret_mode_clicked();
+
+    void on_btn_self_test_att_clicked();
+
+    void on_btn_self_test_attenuation_clicked();
+
 private:
     Ui::sw_platform *ui;
     EventProcessor *event_processor;
+
+    QString dev_pin_code;
+    const QString hash_pin = "217ff2912f20bbcef9bd90d79cfc35c9665dd41fdea62c2012b43d63c03305ca";
+    qint32 dev_pin_code_counter;
+
+    bool dev_mode_access;
 };
 #endif // SW_PLATFORM_H

@@ -16,7 +16,8 @@ typedef enum
     STATE_SECRET_MODE = 3,
     STATE_SYSTEM_MODE = 4,
     STATE_PIN_FOR_DEV = 5,
-    STATE_DEV_MODE = 6
+    STATE_DEV_MODE = 6,
+    STATE_SELF_TEST_ATT = 7
 } StateGUI;
 
 class ManagerGUI : public QObject

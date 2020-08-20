@@ -39,6 +39,7 @@ typedef enum
     GUI_ACTION_SWITCH_TO_SELECT_FREQ = 6,
     GUI_ACTION_SWITCH_TO_PIN_DEV_MODE = 7,
     GUI_ACTION_SWITCH_TO_DEV_MODE = 8,
+    GUI_ACTION_SWITCH_TO_SELF_TEST_ATT = 9
 } GUIAction;
 
 typedef enum
@@ -62,9 +63,15 @@ public:
 
     void ButtonHandle(ButtonID id);
 
+    void SercetCodeButtonHandler(ButtonID id);
+
     void SetMeasureUnit(MeasureUnit measure_unit);
 
     void StartCalibration(SizeWaveguide sizeWave_guide);
+
+    void StartTimer();
+
+    void StopTimer();
 
     Measurer *measurer; /**TODO отправить из контруктора */
 
@@ -77,11 +84,13 @@ private:
     InputState input_state;
     bool is_used_dot;
 
+    QString secret_symbol;
+
     MeasureUnit measure_unit;
 signals:
     void OnUpdatePower(double power);
     void OnFrequencyChange(QString new_frequency);
-    void OnPINCodeChanged(QString pin_code);
+    void OnSecretCodeChanged(QString secret_symbol);
 };
 
 #endif // EVENTPROCESSOR_H
