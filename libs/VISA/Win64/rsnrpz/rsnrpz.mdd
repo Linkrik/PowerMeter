@@ -1,0 +1,5133 @@
+<?xml version='1.0' encoding='utf-8'?>
+<MATLABInstrumentDriver>
+  <FileVersion>2.42</FileVersion>
+  <MakemidGeneratorVersion>2.1.0, 04.01.2018</MakemidGeneratorVersion>
+  <DriverName>rsnrpz</DriverName>
+  <DriverType>MATLAB VXIplug&amp;play</DriverType>
+  <InstrumentType>VXIPnPInstrument</InstrumentType>
+  <InstrumentManufacturer>Rohde&amp;Schwarz GmbH</InstrumentManufacturer>
+  <InstrumentModel>R&amp;S NRPZ Power Sensor</InstrumentModel>
+  <InstrumentVersion>3.5.6.0</InstrumentVersion>
+  <Identify />
+  <Reset />
+  <Selftest />
+  <Error />
+  <CreateInitCode>
+    <Code>function init(obj)
+% This function is called after the object is created - DO NOT EDIT</Code>
+  </CreateInitCode>
+  <ConnectInitCode>
+    <Type>MCode<Code>function init(obj)
+% This function is called after the object is connected - DO NOT EDIT</Code>
+    </Type>
+  </ConnectInitCode>
+  <CleanupCode>
+    <Type>MCode<Code>function cleanup(obj)
+% This function is called before the object is disconnected - DO NOT EDIT</Code>
+    </Type>
+  </CleanupCode>
+  <GroupInfo>
+    <Group>
+      <Name>parent</Name>
+      <Description />
+      <Command />
+      <Size>1</Size>
+      <Mappings>
+        <ChannelMap Command="parent1" Index="1" />
+      </Mappings>
+      <PropertyInfo />
+      <MethodInfo>
+        <Method>
+          <Name>GetDeviceInfoZ5</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SensorName, SensorType, SensorSerial, Connected] = GetDeviceInfoZ5(obj, Port)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SensorName = libpointer('int8Ptr', repmat(10, 1, 1024));
+SensorType = libpointer('int8Ptr', repmat(10, 1, 1024));
+SensorSerial = libpointer('int8Ptr', repmat(10, 1, 1024));
+Connected = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_GetDeviceInfoZ5', session, Port, SensorName, SensorType, SensorSerial, Connected);
+
+SensorName = deblank(strtrim(char(SensorName.Value)));
+SensorType = deblank(strtrim(char(SensorType.Value)));
+SensorSerial = deblank(strtrim(char(SensorSerial.Value)));
+Connected = double(Connected.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'GetDeviceInfoZ5');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>GetDeviceStatusZ5</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Availability] = GetDeviceStatusZ5(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Availability = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_GetDeviceStatusZ5', session, Availability);
+
+Availability = double(Availability.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'GetDeviceStatusZ5');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>GetSensorCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SensorCount] = GetSensorCount(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SensorCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_GetSensorCount', session, SensorCount);
+
+SensorCount = double(SensorCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'GetSensorCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>GetSensorInfo</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SensorName, SensorType, SensorSerial] = GetSensorInfo(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SensorName = libpointer('int8Ptr', repmat(10, 1, 1024));
+SensorType = libpointer('int8Ptr', repmat(10, 1, 1024));
+SensorSerial = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_GetSensorInfo', session, Channel, SensorName, SensorType, SensorSerial);
+
+SensorName = deblank(strtrim(char(SensorName.Value)));
+SensorType = deblank(strtrim(char(SensorType.Value)));
+SensorSerial = deblank(strtrim(char(SensorSerial.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'GetSensorInfo');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_configureAvgAuto</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_configureAvgAuto(obj, Channel, Resolution)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_configureAvgAuto', session, Channel, Resolution);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_configureAvgAuto');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_configureAvgManual</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_configureAvgManual(obj, Channel, Count)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_configureAvgManual', session, Channel, Count);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_configureAvgManual');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_configureAvgNSRatio</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_configureAvgNSRatio(obj, Channel, MaximumNoiseRatio, UpperTimeLimit)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_configureAvgNSRatio', session, Channel, MaximumNoiseRatio, UpperTimeLimit);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_configureAvgNSRatio');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AutoEnabled] = avg_getAutoEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AutoEnabled = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getAutoEnabled', session, Channel, AutoEnabled);
+
+AutoEnabled = double(AutoEnabled.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getAutoMaxMeasuringTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [UpperTimeLimit] = avg_getAutoMaxMeasuringTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+UpperTimeLimit = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getAutoMaxMeasuringTime', session, Channel, UpperTimeLimit);
+
+UpperTimeLimit = double(UpperTimeLimit.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getAutoMaxMeasuringTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getAutoNoiseSignalRatio</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MaximumNoiseRatio] = avg_getAutoNoiseSignalRatio(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MaximumNoiseRatio = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getAutoNoiseSignalRatio', session, Channel, MaximumNoiseRatio);
+
+MaximumNoiseRatio = double(MaximumNoiseRatio.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getAutoNoiseSignalRatio');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getAutoResolution</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Resolution] = avg_getAutoResolution(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Resolution = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getAutoResolution', session, Channel, Resolution);
+
+Resolution = double(Resolution.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getAutoResolution');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getAutoType</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Method] = avg_getAutoType(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Method = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getAutoType', session, Channel, Method);
+
+Method = double(Method.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getAutoType');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Count] = avg_getCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Count = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getCount', session, Channel, Count);
+
+Count = double(Count.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Averaging] = avg_getEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Averaging = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getEnabled', session, Channel, Averaging);
+
+Averaging = double(Averaging.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getSlot</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Timeslot] = avg_getSlot(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Timeslot = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getSlot', session, Channel, Timeslot);
+
+Timeslot = double(Timeslot.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getSlot');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_getTerminalControl</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TerminalControl] = avg_getTerminalControl(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TerminalControl = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_avg_getTerminalControl', session, Channel, TerminalControl);
+
+TerminalControl = double(TerminalControl.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_getTerminalControl');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_reset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_reset(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_reset', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_reset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setAutoEnabled(obj, Channel, AutoEnabled)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setAutoEnabled', session, Channel, AutoEnabled);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setAutoMaxMeasuringTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setAutoMaxMeasuringTime(obj, Channel, UpperTimeLimit)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setAutoMaxMeasuringTime', session, Channel, UpperTimeLimit);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setAutoMaxMeasuringTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setAutoNoiseSignalRatio</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setAutoNoiseSignalRatio(obj, Channel, MaximumNoiseRatio)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setAutoNoiseSignalRatio', session, Channel, MaximumNoiseRatio);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setAutoNoiseSignalRatio');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setAutoResolution</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setAutoResolution(obj, Channel, Resolution)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setAutoResolution', session, Channel, Resolution);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setAutoResolution');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setAutoType</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setAutoType(obj, Channel, Method)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setAutoType', session, Channel, Method);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setAutoType');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setCount(obj, Channel, Count)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setCount', session, Channel, Count);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setEnabled(obj, Channel, Averaging)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setEnabled', session, Channel, Averaging);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setSlot</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setSlot(obj, Channel, Timeslot)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setSlot', session, Channel, Timeslot);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setSlot');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>avg_setTerminalControl</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function avg_setTerminalControl(obj, Channel, TerminalControl)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_avg_setTerminalControl', session, Channel, TerminalControl);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'avg_setTerminalControl');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>bandwidth_getBw</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Bandwidth] = bandwidth_getBw(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Bandwidth = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_bandwidth_getBw', session, Channel, Bandwidth);
+
+Bandwidth = double(Bandwidth.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'bandwidth_getBw');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>bandwidth_getBwList</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [BandwidthList] = bandwidth_getBwList(obj, Channel, nm_BufferSize)
+
+if (~exist('nm_BufferSize','var'))
+	nm_BufferSize = 1024;
+end
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+BandwidthList = libpointer('int8Ptr', repmat(10, 1, nm_BufferSize));
+
+status = calllib(libname, 'rsnrpz_bandwidth_getBwList', session, Channel, nm_BufferSize, BandwidthList);
+
+BandwidthList = deblank(strtrim(char(BandwidthList.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'bandwidth_getBwList');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>bandwidth_setBw</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function bandwidth_setBw(obj, Channel, Bandwidth)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_bandwidth_setBw', session, Channel, Bandwidth);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'bandwidth_setBw');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>calib_getTestDeviation</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TestDeviation] = calib_getTestDeviation(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TestDeviation = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_calib_getTestDeviation', session, Channel, TestDeviation);
+
+TestDeviation = double(TestDeviation.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'calib_getTestDeviation');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>calib_getTestReference</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TestReference] = calib_getTestReference(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TestReference = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_calib_getTestReference', session, Channel, TestReference);
+
+TestReference = double(TestReference.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'calib_getTestReference');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>calib_test</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [CalibTest] = calib_test(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+CalibTest = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_calib_test', session, Channel, CalibTest);
+
+CalibTest = double(CalibTest.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'calib_test');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_abort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_abort(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_abort', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_abort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_configureReflectGammaCorr</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_configureReflectGammaCorr(obj, Channel, Magnitude, Phase)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_configureReflectGammaCorr', session, Channel, Magnitude, Phase);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_configureReflectGammaCorr');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_configureSourceGammaCorr</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_configureSourceGammaCorr(obj, Channel, SourceGammaCorrection, Magnitude, Phase)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_configureSourceGammaCorr', session, Channel, SourceGammaCorrection, Magnitude, Phase);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_configureSourceGammaCorr');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getAuxiliary</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AuxiliaryValue] = chan_getAuxiliary(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AuxiliaryValue = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getAuxiliary', session, Channel, AuxiliaryValue);
+
+AuxiliaryValue = double(AuxiliaryValue.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getAuxiliary');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getBurstChopperEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [BurstAvChopper] = chan_getBurstChopperEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+BurstAvChopper = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getBurstChopperEnabled', session, Channel, BurstAvChopper);
+
+BurstAvChopper = double(BurstAvChopper.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getBurstChopperEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getBurstDropoutTolerance</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DropoutTolerance] = chan_getBurstDropoutTolerance(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DropoutTolerance = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getBurstDropoutTolerance', session, Channel, DropoutTolerance);
+
+DropoutTolerance = double(DropoutTolerance.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getBurstDropoutTolerance');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvAperture</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ContAvAperture] = chan_getContAvAperture(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ContAvAperture = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getContAvAperture', session, Channel, ContAvAperture);
+
+ContAvAperture = double(ContAvAperture.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvAperture');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvBufferCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [BufferCount] = chan_getContAvBufferCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+BufferCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getContAvBufferCount', session, Channel, BufferCount);
+
+BufferCount = double(BufferCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvBufferCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvBufferInfo</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Info] = chan_getContAvBufferInfo(obj, Channel, InfoType, ArraySize)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+InfoType = [double(InfoType) 0];
+Info = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_chan_getContAvBufferInfo', session, Channel, InfoType, ArraySize, Info);
+
+Info = deblank(strtrim(char(Info.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvBufferInfo');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvBufferSize</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [BufferSize] = chan_getContAvBufferSize(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+BufferSize = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getContAvBufferSize', session, Channel, BufferSize);
+
+BufferSize = double(BufferSize.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvBufferSize');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvBufferedEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ContAvBufferedMode] = chan_getContAvBufferedEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ContAvBufferedMode = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getContAvBufferedEnabled', session, Channel, ContAvBufferedMode);
+
+ContAvBufferedMode = double(ContAvBufferedMode.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvBufferedEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getContAvSmoothingEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ContAvSmoothing] = chan_getContAvSmoothingEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ContAvSmoothing = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getContAvSmoothingEnabled', session, Channel, ContAvSmoothing);
+
+ContAvSmoothing = double(ContAvSmoothing.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getContAvSmoothingEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getCorrectionFrequency</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Frequency] = chan_getCorrectionFrequency(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Frequency = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getCorrectionFrequency', session, Channel, Frequency);
+
+Frequency = double(Frequency.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getCorrectionFrequency');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getCorrectionFrequencySpacing</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [FrequencySpacing] = chan_getCorrectionFrequencySpacing(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+FrequencySpacing = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getCorrectionFrequencySpacing', session, Channel, FrequencySpacing);
+
+FrequencySpacing = double(FrequencySpacing.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getCorrectionFrequencySpacing');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getCorrectionFrequencyStep</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [FrequencyStep] = chan_getCorrectionFrequencyStep(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+FrequencyStep = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getCorrectionFrequencyStep', session, Channel, FrequencyStep);
+
+FrequencyStep = double(FrequencyStep.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getCorrectionFrequencyStep');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getInitContinuousEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ContinuousInitiate] = chan_getInitContinuousEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ContinuousInitiate = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getInitContinuousEnabled', session, Channel, ContinuousInitiate);
+
+ContinuousInitiate = double(ContinuousInitiate.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getInitContinuousEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getReflectionGammaMagn</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Magnitude] = chan_getReflectionGammaMagn(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Magnitude = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getReflectionGammaMagn', session, Channel, Magnitude);
+
+Magnitude = double(Magnitude.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getReflectionGammaMagn');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getReflectionGammaPhase</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Phase] = chan_getReflectionGammaPhase(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Phase = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getReflectionGammaPhase', session, Channel, Phase);
+
+Phase = double(Phase.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getReflectionGammaPhase');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getReflectionGammaUncertainty</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Uncertainty] = chan_getReflectionGammaUncertainty(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Uncertainty = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getReflectionGammaUncertainty', session, Channel, Uncertainty);
+
+Uncertainty = double(Uncertainty.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getReflectionGammaUncertainty');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getSamplingFrequency</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SamplingFrequency] = chan_getSamplingFrequency(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SamplingFrequency = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getSamplingFrequency', session, Channel, SamplingFrequency);
+
+SamplingFrequency = double(SamplingFrequency.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getSamplingFrequency');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getSourceGammaCorrEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SourceGammaCorrection] = chan_getSourceGammaCorrEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SourceGammaCorrection = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getSourceGammaCorrEnabled', session, Channel, SourceGammaCorrection);
+
+SourceGammaCorrection = double(SourceGammaCorrection.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getSourceGammaCorrEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getSourceGammaMagnitude</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Magnitude] = chan_getSourceGammaMagnitude(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Magnitude = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getSourceGammaMagnitude', session, Channel, Magnitude);
+
+Magnitude = double(Magnitude.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getSourceGammaMagnitude');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_getSourceGammaPhase</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Phase] = chan_getSourceGammaPhase(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Phase = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_getSourceGammaPhase', session, Channel, Phase);
+
+Phase = double(Phase.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_getSourceGammaPhase');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_info</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Info] = chan_info(obj, Channel, InfoType, ArraySize)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+InfoType = [double(InfoType) 0];
+Info = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_chan_info', session, Channel, InfoType, ArraySize, Info);
+
+Info = deblank(strtrim(char(Info.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_info');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_infoHeader</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Header] = chan_infoHeader(obj, Channel, ParameterNumber, ArraySize)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Header = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_chan_infoHeader', session, Channel, ParameterNumber, ArraySize, Header);
+
+Header = deblank(strtrim(char(Header.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_infoHeader');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_infosCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Count] = chan_infosCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Count = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_infosCount', session, Channel, Count);
+
+Count = double(Count.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_infosCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_initiate</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_initiate(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_initiate', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_initiate');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_isMeasurementComplete</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementComplete] = chan_isMeasurementComplete(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementComplete = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_isMeasurementComplete', session, Channel, MeasurementComplete);
+
+MeasurementComplete = double(MeasurementComplete.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_isMeasurementComplete');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_isZeroComplete</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ZeroingComplete] = chan_isZeroComplete(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ZeroingComplete = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chan_isZeroComplete', session, Channel, ZeroingComplete);
+
+ZeroingComplete = double(ZeroingComplete.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_isZeroComplete');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_mode</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_mode(obj, Channel, MeasurementMode)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_mode', session, Channel, MeasurementMode);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_mode');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_reset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_reset(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_reset', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_reset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_selfTest</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Result] = chan_selfTest(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Result = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_chan_selfTest', session, Channel, Result);
+
+Result = deblank(strtrim(char(Result.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_selfTest');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setAuxiliary</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setAuxiliary(obj, Channel, AuxiliaryValue)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setAuxiliary', session, Channel, AuxiliaryValue);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setAuxiliary');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setBurstChopperEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setBurstChopperEnabled(obj, Channel, BurstAvChopper)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setBurstChopperEnabled', session, Channel, BurstAvChopper);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setBurstChopperEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setBurstDropoutTolerance</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setBurstDropoutTolerance(obj, Channel, DropoutTolerance)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setBurstDropoutTolerance', session, Channel, DropoutTolerance);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setBurstDropoutTolerance');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setContAvAperture</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setContAvAperture(obj, Channel, ContAvAperture)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setContAvAperture', session, Channel, ContAvAperture);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setContAvAperture');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setContAvBufferSize</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setContAvBufferSize(obj, Channel, BufferSize)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setContAvBufferSize', session, Channel, BufferSize);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setContAvBufferSize');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setContAvBufferedEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setContAvBufferedEnabled(obj, Channel, ContAvBufferedMode)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setContAvBufferedEnabled', session, Channel, ContAvBufferedMode);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setContAvBufferedEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setContAvSmoothingEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setContAvSmoothingEnabled(obj, Channel, ContAvSmoothing)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setContAvSmoothingEnabled', session, Channel, ContAvSmoothing);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setContAvSmoothingEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setCorrectionFrequency</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setCorrectionFrequency(obj, Channel, Frequency)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setCorrectionFrequency', session, Channel, Frequency);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setCorrectionFrequency');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setCorrectionFrequencySpacing</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setCorrectionFrequencySpacing(obj, Channel, FrequencySpacing)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setCorrectionFrequencySpacing', session, Channel, FrequencySpacing);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setCorrectionFrequencySpacing');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setCorrectionFrequencyStep</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setCorrectionFrequencyStep(obj, Channel, FrequencyStep)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setCorrectionFrequencyStep', session, Channel, FrequencyStep);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setCorrectionFrequencyStep');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setInitContinuousEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setInitContinuousEnabled(obj, Channel, ContinuousInitiate)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setInitContinuousEnabled', session, Channel, ContinuousInitiate);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setInitContinuousEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setReflectionGammaMagn</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setReflectionGammaMagn(obj, Channel, Magnitude)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setReflectionGammaMagn', session, Channel, Magnitude);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setReflectionGammaMagn');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setReflectionGammaPhase</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setReflectionGammaPhase(obj, Channel, Phase)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setReflectionGammaPhase', session, Channel, Phase);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setReflectionGammaPhase');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setReflectionGammaUncertainty</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setReflectionGammaUncertainty(obj, Channel, Uncertainty)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setReflectionGammaUncertainty', session, Channel, Uncertainty);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setReflectionGammaUncertainty');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setSamplingFrequency</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setSamplingFrequency(obj, Channel, SamplingFrequency)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setSamplingFrequency', session, Channel, SamplingFrequency);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setSamplingFrequency');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setSourceGammaCorrEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setSourceGammaCorrEnabled(obj, Channel, SourceGammaCorrection)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setSourceGammaCorrEnabled', session, Channel, SourceGammaCorrection);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setSourceGammaCorrEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setSourceGammaMagnitude</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setSourceGammaMagnitude(obj, Channel, Magnitude)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setSourceGammaMagnitude', session, Channel, Magnitude);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setSourceGammaMagnitude');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_setSourceGammaPhase</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_setSourceGammaPhase(obj, Channel, Phase)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_setSourceGammaPhase', session, Channel, Phase);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_setSourceGammaPhase');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_zero</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_zero(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_zero', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_zero');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chan_zeroAdvanced</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chan_zeroAdvanced(obj, Channel, Zeroing)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chan_zeroAdvanced', session, Channel, Zeroing);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chan_zeroAdvanced');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_abort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chans_abort(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chans_abort', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_abort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_getCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Count] = chans_getCount(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Count = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chans_getCount', session, Count);
+
+Count = double(Count.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_getCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_initiate</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chans_initiate(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chans_initiate', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_initiate');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_isMeasurementComplete</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementCompleted] = chans_isMeasurementComplete(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementCompleted = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chans_isMeasurementComplete', session, MeasurementCompleted);
+
+MeasurementCompleted = double(MeasurementCompleted.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_isMeasurementComplete');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_isZeroingComplete</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ZeroingCompleted] = chans_isZeroingComplete(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ZeroingCompleted = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_chans_isZeroingComplete', session, ZeroingCompleted);
+
+ZeroingCompleted = double(ZeroingCompleted.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_isZeroingComplete');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>chans_zero</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function chans_zero(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_chans_zero', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'chans_zero');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>close</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function close(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_close', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'close');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_configureCorrections</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_configureCorrections(obj, Channel, OffsetState, Offset, Reserved1, Reserved2, SParameterEnable)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Reserved2 = [double(Reserved2) 0];
+
+status = calllib(libname, 'rsnrpz_corr_configureCorrections', session, Channel, OffsetState, Offset, Reserved1, Reserved2, SParameterEnable);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_configureCorrections');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_configureDutyCycle</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_configureDutyCycle(obj, Channel, DutyCycleState, DutyCycle)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_configureDutyCycle', session, Channel, DutyCycleState, DutyCycle);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_configureDutyCycle');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getDutyCycle</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DutyCycle] = corr_getDutyCycle(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DutyCycle = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getDutyCycle', session, Channel, DutyCycle);
+
+DutyCycle = double(DutyCycle.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getDutyCycle');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getDutyCycleEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DutyCycleState] = corr_getDutyCycleEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DutyCycleState = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getDutyCycleEnabled', session, Channel, DutyCycleState);
+
+DutyCycleState = double(DutyCycleState.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getDutyCycleEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Offset] = corr_getOffset(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Offset = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getOffset', session, Channel, Offset);
+
+Offset = double(Offset.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getOffsetEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [OffsetState] = corr_getOffsetEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+OffsetState = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getOffsetEnabled', session, Channel, OffsetState);
+
+OffsetState = double(OffsetState.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getOffsetEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getSParamDevList</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SParameterDeviceList] = corr_getSParamDevList(obj, Channel, nm_BufferSize)
+
+if (~exist('nm_BufferSize','var'))
+	nm_BufferSize = 1024;
+end
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SParameterDeviceList = libpointer('int8Ptr', repmat(10, 1, nm_BufferSize));
+
+status = calllib(libname, 'rsnrpz_corr_getSParamDevList', session, Channel, nm_BufferSize, SParameterDeviceList);
+
+SParameterDeviceList = deblank(strtrim(char(SParameterDeviceList.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getSParamDevList');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getSParamDevice</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SParameter] = corr_getSParamDevice(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SParameter = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getSParamDevice', session, Channel, SParameter);
+
+SParameter = double(SParameter.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getSParamDevice');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_getSParamDeviceEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SParameterCorrection] = corr_getSParamDeviceEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SParameterCorrection = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_corr_getSParamDeviceEnabled', session, Channel, SParameterCorrection);
+
+SParameterCorrection = double(SParameterCorrection.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_getSParamDeviceEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setDutyCycle</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setDutyCycle(obj, Channel, DutyCycle)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setDutyCycle', session, Channel, DutyCycle);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setDutyCycle');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setDutyCycleEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setDutyCycleEnabled(obj, Channel, DutyCycleState)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setDutyCycleEnabled', session, Channel, DutyCycleState);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setDutyCycleEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setOffset(obj, Channel, Offset)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setOffset', session, Channel, Offset);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setOffsetEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setOffsetEnabled(obj, Channel, OffsetState)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setOffsetEnabled', session, Channel, OffsetState);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setOffsetEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setSParamDevice</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setSParamDevice(obj, Channel, SParameter)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setSParamDevice', session, Channel, SParameter);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setSParamDevice');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>corr_setSParamDeviceEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function corr_setSParamDeviceEnabled(obj, Channel, SParameterEnable)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_corr_setSParamDeviceEnabled', session, Channel, SParameterEnable);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'corr_setSParamDeviceEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>errorCheckState</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function errorCheckState(obj, StateChecking)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_errorCheckState', session, StateChecking);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'errorCheckState');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>error_message</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Message] = error_message(obj, StatusCode)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Message = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_error_message', session, StatusCode, Message);
+
+Message = deblank(strtrim(char(Message.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'error_message');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>error_query</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ErrorCode, ErrorMessage] = error_query(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ErrorCode = libpointer('int32Ptr', 0);
+ErrorMessage = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_error_query', session, ErrorCode, ErrorMessage);
+
+ErrorCode = double(ErrorCode.Value);
+ErrorMessage = deblank(strtrim(char(ErrorMessage.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'error_query');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>getLedColor</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Color] = getLedColor(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Color = libpointer('uint32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_getLedColor', session, Channel, Color);
+
+Color = double(Color.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'getLedColor');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>getLedMode</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Mode] = getLedMode(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Mode = libpointer('uint32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_getLedMode', session, Channel, Mode);
+
+Mode = double(Mode.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'getLedMode');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>getSensorName</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Name] = getSensorName(obj, Channel, MaxLength)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Name = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_getSensorName', session, Channel, Name, MaxLength);
+
+Name = deblank(strtrim(char(Name.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'getSensorName');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>getUsageMap</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Map, RetLen] = getUsageMap(obj, MaxLen)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Map = libpointer('int8Ptr', repmat(10, 1, 1024));
+RetLen = libpointer('uint32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_getUsageMap', session, Map, MaxLen, RetLen);
+
+Map = deblank(strtrim(char(Map.Value)));
+RetLen = double(RetLen.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'getUsageMap');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_fetchBufferMeasurement</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementArray, ReadCount] = meass_fetchBufferMeasurement(obj, Channel, ArraySize, MeasurementArray)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementArray = libpointer('doublePtr', MeasurementArray);
+ReadCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_fetchBufferMeasurement', session, Channel, ArraySize, MeasurementArray, ReadCount);
+
+MeasurementArray = double(MeasurementArray.Value);
+ReadCount = double(ReadCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_fetchBufferMeasurement');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_fetchBufferMeasurementAux</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementArray, Aux1Array, Aux2Array, ReadCount] = meass_fetchBufferMeasurementAux(obj, Channel, MaximumTimems, BufferSize, MeasurementArray, Aux1Array, Aux2Array)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementArray = libpointer('doublePtr', MeasurementArray);
+Aux1Array = libpointer('doublePtr', Aux1Array);
+Aux2Array = libpointer('doublePtr', Aux2Array);
+ReadCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_fetchBufferMeasurementAux', session, Channel, MaximumTimems, BufferSize, MeasurementArray, Aux1Array, Aux2Array, ReadCount);
+
+MeasurementArray = double(MeasurementArray.Value);
+Aux1Array = double(Aux1Array.Value);
+Aux2Array = double(Aux2Array.Value);
+ReadCount = double(ReadCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_fetchBufferMeasurementAux');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_fetchMeasurement</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Measurement] = meass_fetchMeasurement(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Measurement = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_fetchMeasurement', session, Channel, Measurement);
+
+Measurement = double(Measurement.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_fetchMeasurement');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_fetchMeasurementAux</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Measurement, Aux1, Aux2] = meass_fetchMeasurementAux(obj, Channel, Timeoutms)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Measurement = libpointer('doublePtr', 0);
+Aux1 = libpointer('doublePtr', 0);
+Aux2 = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_fetchMeasurementAux', session, Channel, Timeoutms, Measurement, Aux1, Aux2);
+
+Measurement = double(Measurement.Value);
+Aux1 = double(Aux1.Value);
+Aux2 = double(Aux2.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_fetchMeasurementAux');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_readBufferMeasurement</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementArray, ReadCount] = meass_readBufferMeasurement(obj, Channel, MaximumTimems, BufferSize, MeasurementArray)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementArray = libpointer('doublePtr', MeasurementArray);
+ReadCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_readBufferMeasurement', session, Channel, MaximumTimems, BufferSize, MeasurementArray, ReadCount);
+
+MeasurementArray = double(MeasurementArray.Value);
+ReadCount = double(ReadCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_readBufferMeasurement');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_readBufferMeasurementAux</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasurementArray, Aux1Array, Aux2Array, ReadCount] = meass_readBufferMeasurementAux(obj, Channel, MaximumTimems, BufferSize, MeasurementArray, Aux1Array, Aux2Array)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasurementArray = libpointer('doublePtr', MeasurementArray);
+Aux1Array = libpointer('doublePtr', Aux1Array);
+Aux2Array = libpointer('doublePtr', Aux2Array);
+ReadCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_readBufferMeasurementAux', session, Channel, MaximumTimems, BufferSize, MeasurementArray, Aux1Array, Aux2Array, ReadCount);
+
+MeasurementArray = double(MeasurementArray.Value);
+Aux1Array = double(Aux1Array.Value);
+Aux2Array = double(Aux2Array.Value);
+ReadCount = double(ReadCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_readBufferMeasurementAux');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_readMeasurement</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Measurement] = meass_readMeasurement(obj, Channel, Timeoutms)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Measurement = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_readMeasurement', session, Channel, Timeoutms, Measurement);
+
+Measurement = double(Measurement.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_readMeasurement');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_readMeasurementAux</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Measurement, Aux1, Aux2] = meass_readMeasurementAux(obj, Channel, Timeoutms)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Measurement = libpointer('doublePtr', 0);
+Aux1 = libpointer('doublePtr', 0);
+Aux2 = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_meass_readMeasurementAux', session, Channel, Timeoutms, Measurement, Aux1, Aux2);
+
+Measurement = double(Measurement.Value);
+Aux1 = double(Aux1.Value);
+Aux2 = double(Aux2.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_readMeasurementAux');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>meass_sendSoftwareTrigger</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function meass_sendSoftwareTrigger(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_meass_sendSoftwareTrigger', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'meass_sendSoftwareTrigger');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_getAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AutoRange] = range_getAutoEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AutoRange = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_range_getAutoEnabled', session, Channel, AutoRange);
+
+AutoRange = double(AutoRange.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_getAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_getCrossoverLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [CrossoverLevel] = range_getCrossoverLevel(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+CrossoverLevel = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_range_getCrossoverLevel', session, Channel, CrossoverLevel);
+
+CrossoverLevel = double(CrossoverLevel.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_getCrossoverLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_getRange</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Range] = range_getRange(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Range = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_range_getRange', session, Channel, Range);
+
+Range = double(Range.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_getRange');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_setAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function range_setAutoEnabled(obj, Channel, AutoRange)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_range_setAutoEnabled', session, Channel, AutoRange);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_setAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_setCrossoverLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function range_setCrossoverLevel(obj, Channel, CrossoverLevel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_range_setCrossoverLevel', session, Channel, CrossoverLevel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_setCrossoverLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>range_setRange</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function range_setRange(obj, Channel, Range)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_range_setRange', session, Channel, Range);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'range_setRange');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>reset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function reset(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_reset', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'reset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>revision_query</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [InstrumentDriverRevision, FirmwareRevision] = revision_query(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+InstrumentDriverRevision = libpointer('int8Ptr', repmat(10, 1, 1024));
+FirmwareRevision = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_revision_query', session, InstrumentDriverRevision, FirmwareRevision);
+
+InstrumentDriverRevision = deblank(strtrim(char(InstrumentDriverRevision.Value)));
+FirmwareRevision = deblank(strtrim(char(FirmwareRevision.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'revision_query');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_configureScope</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_configureScope(obj, Channel, ScopePoints, ScopeTime, OffsetTime, Realtime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_configureScope', session, Channel, ScopePoints, ScopeTime, OffsetTime, Realtime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_configureScope');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_fastZero</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_fastZero(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_fastZero', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_fastZero');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AutoEnabled] = scope_getAutoEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AutoEnabled = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAutoEnabled', session, Channel, AutoEnabled);
+
+AutoEnabled = double(AutoEnabled.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAutoMaxMeasuringTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [UpperTimeLimit] = scope_getAutoMaxMeasuringTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+UpperTimeLimit = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAutoMaxMeasuringTime', session, Channel, UpperTimeLimit);
+
+UpperTimeLimit = double(UpperTimeLimit.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAutoMaxMeasuringTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAutoNoiseSignalRatio</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MaximumNoiseRatio] = scope_getAutoNoiseSignalRatio(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MaximumNoiseRatio = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAutoNoiseSignalRatio', session, Channel, MaximumNoiseRatio);
+
+MaximumNoiseRatio = double(MaximumNoiseRatio.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAutoNoiseSignalRatio');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAutoResolution</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Resolution] = scope_getAutoResolution(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Resolution = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAutoResolution', session, Channel, Resolution);
+
+Resolution = double(Resolution.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAutoResolution');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAutoType</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Method] = scope_getAutoType(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Method = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAutoType', session, Channel, Method);
+
+Method = double(Method.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAutoType');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAverageCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Count] = scope_getAverageCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Count = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAverageCount', session, Channel, Count);
+
+Count = double(Count.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAverageCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAverageEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ScopeAveraging] = scope_getAverageEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ScopeAveraging = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAverageEnabled', session, Channel, ScopeAveraging);
+
+ScopeAveraging = double(ScopeAveraging.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAverageEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getAverageTerminalControl</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TerminalControl] = scope_getAverageTerminalControl(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TerminalControl = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getAverageTerminalControl', session, Channel, TerminalControl);
+
+TerminalControl = double(TerminalControl.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getAverageTerminalControl');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getEquivalentSampling</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ScopeEquivalentSampling] = scope_getEquivalentSampling(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ScopeEquivalentSampling = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getEquivalentSampling', session, Channel, ScopeEquivalentSampling);
+
+ScopeEquivalentSampling = double(ScopeEquivalentSampling.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getEquivalentSampling');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [OffsetTime] = scope_getOffsetTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+OffsetTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getOffsetTime', session, Channel, OffsetTime);
+
+OffsetTime = double(OffsetTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getPoints</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ScopePoints] = scope_getPoints(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ScopePoints = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getPoints', session, Channel, ScopePoints);
+
+ScopePoints = double(ScopePoints.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getPoints');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getRealtimeEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Realtime] = scope_getRealtimeEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Realtime = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getRealtimeEnabled', session, Channel, Realtime);
+
+Realtime = double(Realtime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getRealtimeEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_getTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ScopeTime] = scope_getTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ScopeTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_getTime', session, Channel, ScopeTime);
+
+ScopeTime = double(ScopeTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_getTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getEquivalentSampling</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ScopeMeasEquivSampling] = scope_meas_getEquivalentSampling(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ScopeMeasEquivSampling = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getEquivalentSampling', session, Channel, ScopeMeasEquivSampling);
+
+ScopeMeasEquivSampling = double(ScopeMeasEquivSampling.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getEquivalentSampling');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getLevelThresholds</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DurationRef, TransitionLowRef, TransitionHighRef] = scope_meas_getLevelThresholds(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DurationRef = libpointer('doublePtr', 0);
+TransitionLowRef = libpointer('doublePtr', 0);
+TransitionHighRef = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getLevelThresholds', session, Channel, DurationRef, TransitionLowRef, TransitionHighRef);
+
+DurationRef = double(DurationRef.Value);
+TransitionLowRef = double(TransitionLowRef.Value);
+TransitionHighRef = double(TransitionHighRef.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getLevelThresholds');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getMeasAlgorithm</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Algorithm] = scope_meas_getMeasAlgorithm(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Algorithm = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getMeasAlgorithm', session, Channel, Algorithm);
+
+Algorithm = double(Algorithm.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getMeasAlgorithm');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getMeasEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TraceMeasurements] = scope_meas_getMeasEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TraceMeasurements = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getMeasEnabled', session, Channel, TraceMeasurements);
+
+TraceMeasurements = double(TraceMeasurements.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getMeasEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [OffsetTime] = scope_meas_getOffsetTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+OffsetTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getOffsetTime', session, Channel, OffsetTime);
+
+OffsetTime = double(OffsetTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getPulseLevels</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TopLevel, BaseLevel] = scope_meas_getPulseLevels(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TopLevel = libpointer('doublePtr', 0);
+BaseLevel = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getPulseLevels', session, Channel, TopLevel, BaseLevel);
+
+TopLevel = double(TopLevel.Value);
+BaseLevel = double(BaseLevel.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getPulseLevels');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getPulsePower</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Average, MinPeak, MaxPeak] = scope_meas_getPulsePower(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Average = libpointer('doublePtr', 0);
+MinPeak = libpointer('doublePtr', 0);
+MaxPeak = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getPulsePower', session, Channel, Average, MinPeak, MaxPeak);
+
+Average = double(Average.Value);
+MinPeak = double(MinPeak.Value);
+MaxPeak = double(MaxPeak.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getPulsePower');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getPulseReferenceLevels</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [LowRefLevel, HighRefLevel, DurationRefLevel] = scope_meas_getPulseReferenceLevels(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+LowRefLevel = libpointer('doublePtr', 0);
+HighRefLevel = libpointer('doublePtr', 0);
+DurationRefLevel = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getPulseReferenceLevels', session, Channel, LowRefLevel, HighRefLevel, DurationRefLevel);
+
+LowRefLevel = double(LowRefLevel.Value);
+HighRefLevel = double(HighRefLevel.Value);
+DurationRefLevel = double(DurationRefLevel.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getPulseReferenceLevels');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getPulseTimes</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DutyCycle, PulseDuration, PulsePeriod] = scope_meas_getPulseTimes(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DutyCycle = libpointer('doublePtr', 0);
+PulseDuration = libpointer('doublePtr', 0);
+PulsePeriod = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getPulseTimes', session, Channel, DutyCycle, PulseDuration, PulsePeriod);
+
+DutyCycle = double(DutyCycle.Value);
+PulseDuration = double(PulseDuration.Value);
+PulsePeriod = double(PulsePeriod.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getPulseTimes');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getPulseTransition</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Duration, Occurence, Overshoot] = scope_meas_getPulseTransition(obj, Channel, Slope)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Duration = libpointer('doublePtr', 0);
+Occurence = libpointer('doublePtr', 0);
+Overshoot = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getPulseTransition', session, Channel, Slope, Duration, Occurence, Overshoot);
+
+Duration = double(Duration.Value);
+Occurence = double(Occurence.Value);
+Overshoot = double(Overshoot.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getPulseTransition');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getSamplePeriod</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SamplePeriod] = scope_meas_getSamplePeriod(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SamplePeriod = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getSamplePeriod', session, Channel, SamplePeriod);
+
+SamplePeriod = double(SamplePeriod.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getSamplePeriod');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_getTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [MeasTime] = scope_meas_getTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+MeasTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_scope_meas_getTime', session, Channel, MeasTime);
+
+MeasTime = double(MeasTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_getTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setEquivalentSampling</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setEquivalentSampling(obj, Channel, ScopeMeasEquivSampling)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setEquivalentSampling', session, Channel, ScopeMeasEquivSampling);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setEquivalentSampling');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setLevelThresholds</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setLevelThresholds(obj, Channel, DurationRef, TransitionLowRef, TransitionHighRef)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setLevelThresholds', session, Channel, DurationRef, TransitionLowRef, TransitionHighRef);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setLevelThresholds');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setMeasAlgorithm</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setMeasAlgorithm(obj, Channel, Algorithm)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setMeasAlgorithm', session, Channel, Algorithm);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setMeasAlgorithm');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setMeasEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setMeasEnabled(obj, Channel, TraceMeasurements)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setMeasEnabled', session, Channel, TraceMeasurements);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setMeasEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setOffsetTime(obj, Channel, OffsetTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setOffsetTime', session, Channel, OffsetTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_meas_setTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_meas_setTime(obj, Channel, MeasTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_meas_setTime', session, Channel, MeasTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_meas_setTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAutoEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAutoEnabled(obj, Channel, AutoEnabled)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAutoEnabled', session, Channel, AutoEnabled);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAutoEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAutoMaxMeasuringTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAutoMaxMeasuringTime(obj, Channel, UpperTimeLimit)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAutoMaxMeasuringTime', session, Channel, UpperTimeLimit);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAutoMaxMeasuringTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAutoNoiseSignalRatio</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAutoNoiseSignalRatio(obj, Channel, MaximumNoiseRatio)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAutoNoiseSignalRatio', session, Channel, MaximumNoiseRatio);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAutoNoiseSignalRatio');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAutoResolution</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAutoResolution(obj, Channel, Resolution)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAutoResolution', session, Channel, Resolution);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAutoResolution');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAutoType</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAutoType(obj, Channel, Method)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAutoType', session, Channel, Method);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAutoType');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAverageCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAverageCount(obj, Channel, Count)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAverageCount', session, Channel, Count);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAverageCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAverageEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAverageEnabled(obj, Channel, ScopeAveraging)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAverageEnabled', session, Channel, ScopeAveraging);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAverageEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setAverageTerminalControl</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setAverageTerminalControl(obj, Channel, TerminalControl)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setAverageTerminalControl', session, Channel, TerminalControl);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setAverageTerminalControl');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setEquivalentSampling</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setEquivalentSampling(obj, Channel, ScopeEquivalentSampling)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setEquivalentSampling', session, Channel, ScopeEquivalentSampling);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setEquivalentSampling');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setOffsetTime(obj, Channel, OffsetTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setOffsetTime', session, Channel, OffsetTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setPoints</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setPoints(obj, Channel, ScopePoints)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setPoints', session, Channel, ScopePoints);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setPoints');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setRealtimeEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setRealtimeEnabled(obj, Channel, Realtime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setRealtimeEnabled', session, Channel, Realtime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setRealtimeEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>scope_setTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function scope_setTime(obj, Channel, ScopeTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_scope_setTime', session, Channel, ScopeTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'scope_setTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>self_test</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [SelfTestResult, SelfTestMessage] = self_test(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+SelfTestResult = libpointer('int16Ptr', 0);
+SelfTestMessage = libpointer('int8Ptr', repmat(10, 1, 1024));
+
+status = calllib(libname, 'rsnrpz_self_test', session, SelfTestResult, SelfTestMessage);
+
+SelfTestResult = double(SelfTestResult.Value);
+SelfTestMessage = deblank(strtrim(char(SelfTestMessage.Value)));
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'self_test');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>setLedColor</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function setLedColor(obj, Channel, Color)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_setLedColor', session, Channel, Color);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'setLedColor');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>setLedMode</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function setLedMode(obj, Channel, Mode)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_setLedMode', session, Channel, Mode);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'setLedMode');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>setSensorName</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function setSensorName(obj, Channel, Name)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Name = [double(Name) 0];
+
+status = calllib(libname, 'rsnrpz_setSensorName', session, Channel, Name);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'setSensorName');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_confScale</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_confScale(obj, Channel, ReferenceLevel, Range, Points)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_confScale', session, Channel, ReferenceLevel, Range, Points);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_confScale');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_confTimegate</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_confTimegate(obj, Channel, Offset, Time, MidambleOffset, MidambleLength)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_confTimegate', session, Channel, Offset, Time, MidambleOffset, MidambleLength);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_confTimegate');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getMidLength</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Length] = stat_getMidLength(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Length = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getMidLength', session, Channel, Length);
+
+Length = double(Length.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getMidLength');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getMidOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Offset] = stat_getMidOffset(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Offset = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getMidOffset', session, Channel, Offset);
+
+Offset = double(Offset.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getMidOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Offset] = stat_getOffsetTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Offset = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getOffsetTime', session, Channel, Offset);
+
+Offset = double(Offset.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getScalePoints</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Points] = stat_getScalePoints(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Points = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getScalePoints', session, Channel, Points);
+
+Points = double(Points.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getScalePoints');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getScaleRange</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Range] = stat_getScaleRange(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Range = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getScaleRange', session, Channel, Range);
+
+Range = double(Range.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getScaleRange');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getScaleRefLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ReferenceLevel] = stat_getScaleRefLevel(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ReferenceLevel = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getScaleRefLevel', session, Channel, ReferenceLevel);
+
+ReferenceLevel = double(ReferenceLevel.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getScaleRefLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getScaleWidth</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Width] = stat_getScaleWidth(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Width = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getScaleWidth', session, Channel, Width);
+
+Width = double(Width.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getScaleWidth');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_getTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Time] = stat_getTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Time = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_stat_getTime', session, Channel, Time);
+
+Time = double(Time.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_getTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setMidLength</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setMidLength(obj, Channel, Length)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setMidLength', session, Channel, Length);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setMidLength');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setMidOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setMidOffset(obj, Channel, Offset)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setMidOffset', session, Channel, Offset);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setMidOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setOffsetTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setOffsetTime(obj, Channel, Offset)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setOffsetTime', session, Channel, Offset);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setOffsetTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setScalePoints</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setScalePoints(obj, Channel, Points)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setScalePoints', session, Channel, Points);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setScalePoints');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setScaleRange</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setScaleRange(obj, Channel, Range)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setScaleRange', session, Channel, Range);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setScaleRange');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setScaleRefLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setScaleRefLevel(obj, Channel, ReferenceLevel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setScaleRefLevel', session, Channel, ReferenceLevel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setScaleRefLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>stat_setTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function stat_setTime(obj, Channel, Time)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_stat_setTime', session, Channel, Time);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'stat_setTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>status_preset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function status_preset(obj)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_status_preset', session);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'status_preset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>system_getResultUpdateTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ResultUpdateTime] = system_getResultUpdateTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ResultUpdateTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_system_getResultUpdateTime', session, Channel, ResultUpdateTime);
+
+ResultUpdateTime = double(ResultUpdateTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'system_getResultUpdateTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>system_getStatusUpdateTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [StatusUpdateTime] = system_getStatusUpdateTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+StatusUpdateTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_system_getStatusUpdateTime', session, Channel, StatusUpdateTime);
+
+StatusUpdateTime = double(StatusUpdateTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'system_getStatusUpdateTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>system_setResultUpdateTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function system_setResultUpdateTime(obj, Channel, ResultUpdateTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_system_setResultUpdateTime', session, Channel, ResultUpdateTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'system_setResultUpdateTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>system_setStatusUpdateTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function system_setStatusUpdateTime(obj, Channel, StatusUpdateTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_system_setStatusUpdateTime', session, Channel, StatusUpdateTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'system_setStatusUpdateTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>timing_configureExclude</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function timing_configureExclude(obj, Channel, ExcludeStart, ExcludeStop)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_timing_configureExclude', session, Channel, ExcludeStart, ExcludeStop);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'timing_configureExclude');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>timing_getTimingExcludeStart</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ExcludeStart] = timing_getTimingExcludeStart(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ExcludeStart = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_timing_getTimingExcludeStart', session, Channel, ExcludeStart);
+
+ExcludeStart = double(ExcludeStart.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'timing_getTimingExcludeStart');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>timing_getTimingExcludeStop</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [ExcludeStop] = timing_getTimingExcludeStop(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+ExcludeStop = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_timing_getTimingExcludeStop', session, Channel, ExcludeStop);
+
+ExcludeStop = double(ExcludeStop.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'timing_getTimingExcludeStop');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>timing_setTimingExcludeStart</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function timing_setTimingExcludeStart(obj, Channel, ExcludeStart)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_timing_setTimingExcludeStart', session, Channel, ExcludeStart);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'timing_setTimingExcludeStart');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>timing_setTimingExcludeStop</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function timing_setTimingExcludeStop(obj, Channel, ExcludeStop)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_timing_setTimingExcludeStop', session, Channel, ExcludeStop);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'timing_setTimingExcludeStop');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_configureExternal</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_configureExternal(obj, Channel, TriggerDelay)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_configureExternal', session, Channel, TriggerDelay);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_configureExternal');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_configureInternal</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_configureInternal(obj, Channel, TriggerLevel, TriggerSlope)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_configureInternal', session, Channel, TriggerLevel, TriggerSlope);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_configureInternal');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getAutoDelayEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AutoDelay] = trigger_getAutoDelayEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AutoDelay = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getAutoDelayEnabled', session, Channel, AutoDelay);
+
+AutoDelay = double(AutoDelay.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getAutoDelayEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getAutoTriggerEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [AutoTrigger] = trigger_getAutoTriggerEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+AutoTrigger = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getAutoTriggerEnabled', session, Channel, AutoTrigger);
+
+AutoTrigger = double(AutoTrigger.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getAutoTriggerEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerCount] = trigger_getCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getCount', session, Channel, TriggerCount);
+
+TriggerCount = double(TriggerCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getDelay</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerDelay] = trigger_getDelay(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerDelay = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getDelay', session, Channel, TriggerDelay);
+
+TriggerDelay = double(TriggerDelay.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getDelay');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getDropoutTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [DropoutTime] = trigger_getDropoutTime(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+DropoutTime = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getDropoutTime', session, Channel, DropoutTime);
+
+DropoutTime = double(DropoutTime.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getDropoutTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getHoldoff</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerHoldoff] = trigger_getHoldoff(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerHoldoff = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getHoldoff', session, Channel, TriggerHoldoff);
+
+TriggerHoldoff = double(TriggerHoldoff.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getHoldoff');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getHysteresis</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerHysteresis] = trigger_getHysteresis(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerHysteresis = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getHysteresis', session, Channel, TriggerHysteresis);
+
+TriggerHysteresis = double(TriggerHysteresis.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getHysteresis');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerLevel] = trigger_getLevel(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerLevel = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getLevel', session, Channel, TriggerLevel);
+
+TriggerLevel = double(TriggerLevel.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getMasterPort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Port] = trigger_getMasterPort(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Port = libpointer('uint32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getMasterPort', session, Channel, Port);
+
+Port = double(Port.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getMasterPort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getMasterState</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [State] = trigger_getMasterState(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+State = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getMasterState', session, Channel, State);
+
+State = double(State.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getMasterState');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getSlope</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerSlope] = trigger_getSlope(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerSlope = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getSlope', session, Channel, TriggerSlope);
+
+TriggerSlope = double(TriggerSlope.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getSlope');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getSource</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TriggerSource] = trigger_getSource(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TriggerSource = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getSource', session, Channel, TriggerSource);
+
+TriggerSource = double(TriggerSource.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getSource');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getSyncPort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Port] = trigger_getSyncPort(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Port = libpointer('uint32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getSyncPort', session, Channel, Port);
+
+Port = double(Port.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getSyncPort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_getSyncState</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [State] = trigger_getSyncState(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+State = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_trigger_getSyncState', session, Channel, State);
+
+State = double(State.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_getSyncState');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_immediate</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_immediate(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_immediate', session, Channel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_immediate');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setAutoDelayEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setAutoDelayEnabled(obj, Channel, AutoDelay)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setAutoDelayEnabled', session, Channel, AutoDelay);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setAutoDelayEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setAutoTriggerEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setAutoTriggerEnabled(obj, Channel, AutoTrigger)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setAutoTriggerEnabled', session, Channel, AutoTrigger);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setAutoTriggerEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setCount(obj, Channel, TriggerCount)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setCount', session, Channel, TriggerCount);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setDelay</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setDelay(obj, Channel, TriggerDelay)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setDelay', session, Channel, TriggerDelay);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setDelay');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setDropoutTime</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setDropoutTime(obj, Channel, DropoutTime)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setDropoutTime', session, Channel, DropoutTime);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setDropoutTime');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setHoldoff</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setHoldoff(obj, Channel, TriggerHoldoff)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setHoldoff', session, Channel, TriggerHoldoff);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setHoldoff');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setHysteresis</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setHysteresis(obj, Channel, TriggerHysteresis)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setHysteresis', session, Channel, TriggerHysteresis);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setHysteresis');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setLevel</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setLevel(obj, Channel, TriggerLevel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setLevel', session, Channel, TriggerLevel);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setLevel');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setMasterPort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setMasterPort(obj, Channel, Port)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setMasterPort', session, Channel, Port);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setMasterPort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setMasterState</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setMasterState(obj, Channel, State)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setMasterState', session, Channel, State);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setMasterState');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setSlope</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setSlope(obj, Channel, TriggerSlope)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setSlope', session, Channel, TriggerSlope);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setSlope');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setSource</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setSource(obj, Channel, TriggerSource)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setSource', session, Channel, TriggerSource);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setSource');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setSyncPort</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setSyncPort(obj, Channel, Port)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setSyncPort', session, Channel, Port);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setSyncPort');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>trigger_setSyncState</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function trigger_setSyncState(obj, Channel, State)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_trigger_setSyncState', session, Channel, State);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'trigger_setSyncState');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_configureTimeSlot</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_configureTimeSlot(obj, Channel, TimeSlotCount, Width)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_configureTimeSlot', session, Channel, TimeSlotCount, Width);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_configureTimeSlot');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_getTimeSlotChopperEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TimeSlotChopper] = tslot_getTimeSlotChopperEnabled(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TimeSlotChopper = libpointer('uint16Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_tslot_getTimeSlotChopperEnabled', session, Channel, TimeSlotChopper);
+
+TimeSlotChopper = double(TimeSlotChopper.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_getTimeSlotChopperEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_getTimeSlotCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [TimeSlotCount] = tslot_getTimeSlotCount(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+TimeSlotCount = libpointer('int32Ptr', 0);
+
+status = calllib(libname, 'rsnrpz_tslot_getTimeSlotCount', session, Channel, TimeSlotCount);
+
+TimeSlotCount = double(TimeSlotCount.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_getTimeSlotCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_getTimeSlotMidLength</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Length] = tslot_getTimeSlotMidLength(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Length = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_tslot_getTimeSlotMidLength', session, Channel, Length);
+
+Length = double(Length.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_getTimeSlotMidLength');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_getTimeSlotMidOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Offset] = tslot_getTimeSlotMidOffset(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Offset = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_tslot_getTimeSlotMidOffset', session, Channel, Offset);
+
+Offset = double(Offset.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_getTimeSlotMidOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_getTimeSlotWidth</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function [Width] = tslot_getTimeSlotWidth(obj, Channel)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+Width = libpointer('doublePtr', 0);
+
+status = calllib(libname, 'rsnrpz_tslot_getTimeSlotWidth', session, Channel, Width);
+
+Width = double(Width.Value);
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_getTimeSlotWidth');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_setTimeSlotChopperEnabled</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_setTimeSlotChopperEnabled(obj, Channel, TimeSlotChopper)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_setTimeSlotChopperEnabled', session, Channel, TimeSlotChopper);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_setTimeSlotChopperEnabled');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_setTimeSlotCount</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_setTimeSlotCount(obj, Channel, TimeSlotCount)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_setTimeSlotCount', session, Channel, TimeSlotCount);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_setTimeSlotCount');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_setTimeSlotMidLength</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_setTimeSlotMidLength(obj, Channel, Length)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_setTimeSlotMidLength', session, Channel, Length);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_setTimeSlotMidLength');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_setTimeSlotMidOffset</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_setTimeSlotMidOffset(obj, Channel, Offset)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_setTimeSlotMidOffset', session, Channel, Offset);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_setTimeSlotMidOffset');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>tslot_setTimeSlotWidth</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function tslot_setTimeSlotWidth(obj, Channel, Width)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+status = calllib(libname, 'rsnrpz_tslot_setTimeSlotWidth', session, Channel, Width);
+
+if (status &lt; 0)
+	invoke (obj, 'ErrorException', status, 'tslot_setTimeSlotWidth');
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+        <Method>
+          <Name>ErrorException</Name>
+          <Location>parent</Location>
+          <CapabilityGroup>Base</CapabilityGroup>
+          <Type>MCode</Type>
+          <Code>
+            <MCode>function ErrorException (obj, status, FunctionName)
+
+libname = get(obj, 'DriverName');
+session = get(obj, 'Interface');
+
+if (status &lt; 0)
+	errorMessage = libpointer('int8Ptr', repmat(10, 1, 1024));
+	status = calllib(libname, 'rsnrpz_error_message', session, status, errorMessage);
+
+	if (status &lt; 0)
+		error('Function ''%s'': Failed to interpret error message', FunctionName);
+	end
+
+	errorMessage = deblank(strtrim(char(errorMessage.Value)));
+	error('Function ''%s'': The instrument returned an error.\n%s', FunctionName, errorMessage)
+end</MCode>
+          </Code>
+          <Description />
+        </Method>
+      </MethodInfo>
+    </Group>
+  </GroupInfo>
+</MATLABInstrumentDriver>

@@ -51,11 +51,11 @@ public:
     void MeasurerInit();
     void SetSizeWaveguide(SizeWaveguide size_waveguide);
     void SetFrequency(qint64 frequency);
-    void SetMode(MeasureMode mode);
+//    void SetMode(MeasureMode mode);
 
     bool IsConnect();
 
-    void MeasurerMode(MeasureMode mode);
+//    void MeasurerMode(MeasureMode mode);
 
     double GetPower();
     double GetRefPower(qint64 frequency);
@@ -67,6 +67,11 @@ public:
 
     void Calibration(SizeWaveguide size_waveguide);
 
+    Detector *Sensor_NRP_Z81;
+    Detector *Sensor_NRP_Z85;
+    Detector *Sensor_NRP_Z24;
+    Detector *Sensor_NRP_18T;
+
 signals:
     void OnUpdateProgressBar(qint32 progress);
 
@@ -75,7 +80,7 @@ private:
     bool is_reference_connect;
     SizeWaveguide size_waveguide;
     qint64 frequency;
-    MeasureMode mode;
+//    MeasureMode mode;
 
     qint64 max_frequency;
     qint64 min_frequency;
@@ -85,20 +90,15 @@ private:
 
     double current_generator_power;
 
-    Detector NRP_Z81;
-    Detector NRP_Z85;
-    Detector NRP_Z24;
-    Detector NRP_18T;
+//    ViString  gs_sResourceName = "USB::0xAAD::0x0083::101358"; //NRP-Z85
+//    ViBoolean gs_hIDQuery = VI_TRUE;
+//    ViBoolean gs_hResetDevice = VI_TRUE;
+//    ViSession g_Session = 0;
 
-    ViString  gs_sResourceName = "USB::0xAAD::0x0083::101358"; //NRP-Z85
-    ViBoolean gs_hIDQuery = VI_TRUE;
-    ViBoolean gs_hResetDevice = VI_TRUE;
-    ViSession g_Session = 0;
-
-    ViString  ref_sResourceName = "USB::0xAAD::0x0150::102136"; //NRP-18T
-    ViBoolean ref_hIDQuery = VI_TRUE;
-    ViBoolean ref_hResetDevice = VI_TRUE;
-    ViSession ref_Session = 0;
+//    ViString  ref_sResourceName = "USB::0xAAD::0x0150::102136"; //NRP-18T
+//    ViBoolean ref_hIDQuery = VI_TRUE;
+//    ViBoolean ref_hResetDevice = VI_TRUE;
+//    ViSession ref_Session = 0;
 
     QString generator_address;
     qint32 generator_port;

@@ -1,0 +1,15 @@
+<customize version="7.0">
+<control>
+<parameter>Resource Name</parameter>
+<function>InitWithOptions</function>
+<module>niModInstCustCtrl.dll</module>
+<handler>niModInstCVICust_SelectDevice</handler>
+</control>
+<control>
+<parameter>Resource Name</parameter>
+<function>init</function>
+<module>niModInstCustCtrl.dll</module>
+<handler>niModInstCVICust_SelectDevice</handler>
+</control>
+</customize>
+

@@ -12,6 +12,7 @@ ManagerGUI::ManagerGUI(QVector<QPushButton *> buttons)
     this->button_matrix[STATE_PIN_FOR_DEV]                      << false << false << false << false;
     this->button_matrix[STATE_DEV_MODE]                         << false << false << false << false;
     this->button_matrix[STATE_SELF_TEST_ATT]                    << false << false << true  << false;
+    this->button_matrix[STATE_SENSOR_INFO]                      << false << false << true  << false;
 
     this->state_gui = STATE_SELECT_FREQ;
 }

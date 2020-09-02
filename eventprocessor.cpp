@@ -58,6 +58,11 @@ void EventProcessor::RefreshGUI(GUIAction id)
         {
             this->gui->SetStateGUI(STATE_DEV_MODE);
         } break;
+
+        case GUI_ACTION_SWITCH_TO_SENSOR_INFORMATION:
+        {
+            this->gui->SetStateGUI(STATE_SENSOR_INFO);
+        }
     }
 
 }
@@ -71,7 +76,7 @@ void EventProcessor::GetPower()
 {
     if (this->gui->GetStateGUI() == STATE_SELECT_FREQ)
     {
-        double power = measurer->GetPower();
+        double power = measurer->Sensor_NRP_18T->GetPower();//measurer->GetPower();
         if (this->measure_unit == UNIT_WATT)
         {
             power = (pow(10, (power - 30)/10.0));
@@ -214,10 +219,10 @@ void EventProcessor::StopTimer()
 
 void EventProcessor::StartCalibration(SizeWaveguide sizeWave_guide)
 {
-//    this->timer->stop();
+    this->timer->stop();
     QFuture<void> future = QtConcurrent::run(measurer, &Measurer::Calibration, sizeWave_guide);
-//    this->timer->start(250);
-//    future.waitForFinished();
+    this->timer->start(250);
+    future.waitForFinished();
 }
 
 void EventProcessor::SercetCodeButtonHandler(ButtonID id)

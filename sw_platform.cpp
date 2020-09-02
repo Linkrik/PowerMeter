@@ -12,7 +12,8 @@ enum
     PAGE5_LOAD_SECRET_FILE = 4,
     PAGE6_PIN_FOR_DEV = 5,
     PAGE7_DEV_MODE = 6,
-    PAGE8_SELF_TEST_ATT = 7
+    PAGE8_SELF_TEST_ATT = 7,
+    PAGE9_SENSOR_INFO = 8
 } PageState;
 
 sw_platform::sw_platform(QWidget *parent)
@@ -81,6 +82,21 @@ void sw_platform::on_btn_system_clicked()
 {
     event_processor->RefreshGUI(GUI_ACTION_SWITCH_TO_SYSTEM_MODE);
     ui->stackedWidget->setCurrentIndex(PAGE4_SYSTEM);
+
+    qDebug() << "dirContent.at(i)";
+
+    QDir dir(QDir::currentPath() + "/styles");
+    QStringList qss = dir.entryList(QStringList("*.qss"));
+
+    ui->cb_color_theme->clear();
+
+    foreach (QString file, qss)
+        ui->cb_color_theme->addItem(file);
+
+//    QFileInfoList dirContent = dir.entryInfoList(QStringList() << "*.qss", QDir::Dirs | QDir::Files | QDir::NoDotAndDotDot);
+//    for (qint32 i = 0; i < dirContent.count(); i++)
+//        qDebug() << dirContent.at(i);
+//        ui->cb_color_theme->addItem(dirContent.at(i));
 }
 
 void sw_platform::on_btn_secret_clicked()
@@ -201,6 +217,14 @@ void sw_platform::on_btn_select_liter_file_clicked()
 {
     event_processor->RefreshGUI(GUI_ACTION_SWITCH_TO_PIN_SECRET_MODE);
     ui->stackedWidget->setCurrentIndex(PAGE2_ENTER_PIN_CODE);
+
+    QDir dir(QDir::currentPath() + "/secret");
+    QStringList slf = dir.entryList(QStringList("*.slf"));
+
+    ui->cb_list_secret_files->clear();
+
+    foreach (QString file, slf)
+        ui->cb_list_secret_files->addItem(file);
 }
 
 void sw_platform::on_btn_cancel_pin_code_clicked()
@@ -431,4 +455,112 @@ void sw_platform::on_btn_self_test_attenuation_clicked()
             ui->tw_self_test_attenuation->setItem(0, 0, &item);
         }
     }
+}
+
+void sw_platform::on_btn_exit_self_test_attenuation_clicked()
+{
+    event_processor->RefreshGUI(GUI_ACTION_SWITCH_TO_DEV_MODE);
+    ui->stackedWidget->setCurrentIndex(PAGE7_DEV_MODE);
+}
+
+void sw_platform::on_btn_exit_sensor_info_clicked()
+{
+    event_processor->RefreshGUI(GUI_ACTION_SWITCH_TO_DEV_MODE);
+    ui->stackedWidget->setCurrentIndex(PAGE7_DEV_MODE);
+}
+
+void sw_platform::on_btn_sensor_information_clicked()
+{
+    event_processor->RefreshGUI(GUI_ACTION_SWITCH_TO_SENSOR_INFORMATION);
+    ui->stackedWidget->setCurrentIndex(PAGE9_SENSOR_INFO);
+
+    const qint32  sensor_count = 4;
+
+    QString cell_data[4][3];
+    QColor color[4];
+/** --------------------------------------- SENSOR NRP-18T --------------------------------------- */
+    cell_data[0][0] = event_processor->measurer->Sensor_NRP_18T->GetSensorInfo().sensorType;
+    cell_data[0][1] = event_processor->measurer->Sensor_NRP_18T->GetSensorInfo().sensorName;
+    cell_data[0][2] = event_processor->measurer->Sensor_NRP_18T->GetSensorInfo().sensorSN;
+
+    if (event_processor->measurer->Sensor_NRP_18T->IsConnect())
+        color[0] = Qt::green;
+    else
+        color[0] = Qt::red;
+
+/** --------------------------------------- SENSOR NRP-Z24 --------------------------------------- */
+    cell_data[1][0] = event_processor->measurer->Sensor_NRP_Z24->GetSensorInfo().sensorType;
+    cell_data[1][1] = event_processor->measurer->Sensor_NRP_Z24->GetSensorInfo().sensorName;
+    cell_data[1][2] = event_processor->measurer->Sensor_NRP_Z24->GetSensorInfo().sensorSN;
+
+    if (event_processor->measurer->Sensor_NRP_Z24->IsConnect())
+        color[1] = Qt::green;
+    else
+        color[1] = Qt::red;
+
+/** --------------------------------------- SENSOR NRP-Z81 --------------------------------------- */
+    cell_data[2][0] = event_processor->measurer->Sensor_NRP_Z81->GetSensorInfo().sensorType;
+    cell_data[2][1] = event_processor->measurer->Sensor_NRP_Z81->GetSensorInfo().sensorName;
+    cell_data[2][2] = event_processor->measurer->Sensor_NRP_Z81->GetSensorInfo().sensorSN;
+
+    if (event_processor->measurer->Sensor_NRP_Z81->IsConnect())
+        color[2] = Qt::green;
+    else
+        color[2] = Qt::red;
+
+/** --------------------------------------- SENSOR NRP-Z85 --------------------------------------- */
+    cell_data[3][0] = event_processor->measurer->Sensor_NRP_Z85->GetSensorInfo().sensorType;
+    cell_data[3][1] = event_processor->measurer->Sensor_NRP_Z85->GetSensorInfo().sensorName;
+    cell_data[3][2] = event_processor->measurer->Sensor_NRP_Z85->GetSensorInfo().sensorSN;
+
+    if (event_processor->measurer->Sensor_NRP_Z85->IsConnect())
+        color[3] = Qt::green;
+    else
+        color[3] = Qt::red;
+
+    ui->tw_sensor_list->setColumnWidth(0, (ui->tw_sensor_list->width()/3) - 12);
+    ui->tw_sensor_list->setColumnWidth(1, (ui->tw_sensor_list->width()/3) - 12);
+    ui->tw_sensor_list->setColumnWidth(2, (ui->tw_sensor_list->width()/3) - 12);
+
+    if (ui->tw_sensor_list->rowCount() >= 4)
+    {
+        for (qint32 i = 0; i < ui->tw_sensor_list->rowCount(); i++)
+        {
+            ui->tw_sensor_list->removeRow(i);
+        }
+    }
+
+    for (qint32 i = 0; i < sensor_count; i++)
+    {
+        ui->tw_sensor_list->insertRow(i);
+        ui->tw_sensor_list->selectRow(i);
+
+        for (qint32 j = 0; j < ui->tw_sensor_list->columnCount(); j++)
+        {
+            QTableWidgetItem *item = new QTableWidgetItem();
+            item->setText(cell_data[i][j]);
+            item->setTextColor(color[i]);
+            ui->tw_sensor_list->setItem(i, j, item);
+//            ui->tw_sensor_list->setStyleSheet(cell_data[i][3]);
+        }
+    }
+}
+
+void sw_platform::on_cb_color_theme_currentIndexChanged(int index)
+{
+    if (ui->cb_color_theme->count() > 0)
+    {
+        ui->cb_color_theme->setCurrentIndex(this->color_theme);
+
+        this->color_theme = index;
+
+        QFile style_file(QDir::currentPath() + "\\styles\\" + ui->cb_color_theme->itemText(index));
+        style_file.open(QFile::ReadOnly | QFile::Text);
+
+        QTextStream stream(&style_file);
+        qApp->setStyleSheet(stream.readAll());
+    }
+    else
+        this->color_theme = index;
+//    QApplication::setStyleSheet(stream.readAll());
 }

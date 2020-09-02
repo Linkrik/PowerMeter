@@ -1,0 +1,8 @@
+<customize version="7.0">
+<control>
+<parameter>Resource Name</parameter>
+<function>CalStart</function>
+<module>niModInstCustCtrl.dll</module>
+<handler>niModInstCVICust_SelectDevice</handler>
+</control>
+</customize>

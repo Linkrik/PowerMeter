@@ -17,7 +17,8 @@ typedef enum
     STATE_SYSTEM_MODE = 4,
     STATE_PIN_FOR_DEV = 5,
     STATE_DEV_MODE = 6,
-    STATE_SELF_TEST_ATT = 7
+    STATE_SELF_TEST_ATT = 7,
+    STATE_SENSOR_INFO = 8
 } StateGUI;
 
 class ManagerGUI : public QObject

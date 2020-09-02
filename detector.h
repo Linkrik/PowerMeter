@@ -8,7 +8,6 @@
 #include <QThread>
 #include <QDebug>
 
-
 #include "rsnrpz.h"
 
 typedef enum
@@ -35,20 +34,31 @@ typedef struct
     DeviceDetector Detector;
     DetectorMode Mode;
     bool is_connect;
-} RF_Detector;
+    qint32 uid;
+} DetectorSettings;
+
+typedef struct
+{
+    QString sensorName;
+    QString sensorType;
+    QString sensorSN;
+} SensorInfo;
 
 class Detector : public QObject
 {
     Q_OBJECT
 public:
-    Detector(DeviceDetector device);
+    Detector(DetectorSettings detector_settings, DeviceDetector device);
 
     void SetMode(DetectorMode mode);
     void SetFrequency(qint64 frequency);
     double GetPower();
+    bool IsConnect();
+    SensorInfo GetSensorInfo();
 
 private:
-    RF_Detector detector;
+    DetectorSettings detector;
+    SensorInfo sensor_info;
 
 signals:
 

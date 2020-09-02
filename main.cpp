@@ -14,8 +14,8 @@ int main(int argc, char *argv[])
 
 //    QApplication::setStyle(QStyleFactory::create("Windows"));
 
-//    QFile style_file(QDir::currentPath() + "/styles/Darkeum.qss"); /** + */
-    QFile style_file(QDir::currentPath() + "/styles/Mig.qss"); /** + */
+    QFile style_file(QDir::currentPath() + "/styles/Darkeum.qss"); /** + */
+    //QFile style_file(QDir::currentPath() + "/styles/Mig.qss"); /** + */
 //    QFile style_file(QDir::currentPath() + "/styles/QtDark.qss"); /** + */
 //    QFile style_file(QDir::currentPath() + "/styles/Devsion.qss");   /** - */
 //    QFile style_file(QDir::currentPath() + "/styles/Diffnes.qss");   /** - */

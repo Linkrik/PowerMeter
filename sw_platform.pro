@@ -33,7 +33,11 @@ HEADERS += \
 FORMS += \
     sw_platform.ui
 
-LIBS += $$PWD"/libs/VISA/WinNT/lib/msc/rsnrpz_32.lib" #G:/Qt/sw_platform/sw_platform
+#LIBS += $$PWD"/libs/VISA/WinNT/lib/msc/rsnrpz_32.lib" #G:/Qt/sw_platform/sw_platform visa64
+#LIBS += $$PWD"/libs/VISA/WinNT/lib/msc/NrpControl2.lib"NrpControl2_64
+LIBS += $$PWD"/libs/VISA/Win64/lib/msc/rsnrpz_64.lib"
+LIBS += $$PWD"/libs/VISA/Win64/lib/msc/NrpControl2_64.lib"
+
 INCLUDEPATH += $$PWD"/libs/VISA/WinNT/Include"
 
 INCLUDEPATH += $$PWD"/sw_platform/libs"

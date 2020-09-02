@@ -120,6 +120,14 @@ private slots:
 
     void on_btn_self_test_attenuation_clicked();
 
+    void on_btn_exit_self_test_attenuation_clicked();
+
+    void on_btn_exit_sensor_info_clicked();
+
+    void on_btn_sensor_information_clicked();
+
+    void on_cb_color_theme_currentIndexChanged(int index);
+
 private:
     Ui::sw_platform *ui;
     EventProcessor *event_processor;
@@ -129,5 +137,7 @@ private:
     qint32 dev_pin_code_counter;
 
     bool dev_mode_access;
+
+    qint32 color_theme;
 };
 #endif // SW_PLATFORM_H
